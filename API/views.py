@@ -12,8 +12,14 @@ from .models import *
 from .serializers import *
 
 class shortcutViewSet(generics.ListAPIView):
-    queryset = shortcut.objects.ober_by('shortcut_id')
+    queryset = shortcut.objects.order_by('shortcut_id')
     serializer_class = shortcutSerializer
+    permission_classes = (AllowAny,)
+
+
+class keymapViewSet(generics.ListCreateAPIView):
+    queryset = keymap.objects.all()
+    serializer_class = keymapSerializer
     permission_classes = (AllowAny,)
 
 class shortcutsortViewSet(generics.ListAPIView):
@@ -22,4 +28,4 @@ class shortcutsortViewSet(generics.ListAPIView):
     def get_queryset(self):
         f_os = self.kwargs['f_os']
         return shortcut.objects.filter(f_os=f_os).order_by('shortcut_id')
-        
+
