@@ -41,7 +41,7 @@ class shortcut(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.shortcut_id}:{self.shortcut_name} "
+        return f"{self.f_os.os_name}{self.shortcut_id}:{self.shortcut_name} "
     
 
 
