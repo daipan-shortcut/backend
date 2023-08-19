@@ -81,3 +81,18 @@ class remember_shortcut(models.Model):
 
     def __str__(self):
         return f"{self.f_user.email}:{self.f_os.os_name}"
+    
+class success_shortcut(models.Model):
+    succsess_shortcut_id = models.AutoField(primary_key=True)
+    f_user = models.ForeignKey(t_user, on_delete=models.CASCADE)
+    f_os = models.ForeignKey(os, on_delete=models.CASCADE)
+    shortcuts = models.ManyToManyField(shortcut)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = '正解したショートカット情報'
+        verbose_name_plural = '正解したショートカット情報'
+
+    def __str__(self):
+        return f"{self.f_user.email}:{self.f_os.os_name}"

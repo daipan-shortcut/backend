@@ -9,5 +9,6 @@ urlpatterns = [
     path('login/', views.Login.as_view()),
     path('remember/', views.remenderlistViewSet.as_view()),
     path('remember/<int:f_user>/<str:f_os>/', views.remenderViewSet.as_view()),
-    path('arrival/<int:f_user>/', views.arrivalView.as_view()),
+    path('success/', views.successlistViewSet.as_view()),
+    path('arrival/<str:f_user>/', views.arrivalView.as_view()),
 ]

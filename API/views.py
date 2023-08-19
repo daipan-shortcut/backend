@@ -104,6 +104,13 @@ class remenderViewSet(generics.RetrieveAPIView):
     
     permission_classes = (AllowAny,)
 
+class successlistViewSet(generics.CreateAPIView):
+    queryset = success_shortcut.objects.all()
+    serializer_class = success_shortcutpostSerializer
+    # authentication_classes = [JWTAuthentication, ]
+    # permission_classes = [IsAuthenticated, ]
+    permission_classes = (AllowAny,)
+
 
 class arrivalView(APIView):
     def get(self, request, f_user):
@@ -116,30 +123,50 @@ class arrivalView(APIView):
         try:
             misswindows = remember_shortcut.objects.filter(f_user=f_user, f_os=1).order_by('-remember_shortcut_id').first().shortcuts.count()
         except AttributeError:
-            misswindows = 0
+            misswindows = None
         try:
             missmac = remember_shortcut.objects.filter(f_user=f_user, f_os=2).order_by('-remember_shortcut_id').first().shortcuts.count()
         except AttributeError:
-            missmac = 0
+            missmac = None
         try:    
             misslinux = remember_shortcut.objects.filter(f_user=f_user, f_os=3).order_by('-remember_shortcut_id').first().shortcuts.count()
         except AttributeError:
-            misslinux = 0
+            misslinux = None
         
+        #各OSのユーザーの正解ショートカット数を取得
+        try:
+            successwindows = success_shortcut.objects.filter(f_user=f_user, f_os=1).order_by('-succsess_shortcut_id').first().shortcuts.count()
+        except AttributeError:
+            successwindows = None
+        try:
+            successmac = success_shortcut.objects.filter(f_user=f_user, f_os=2).order_by('-succsess_shortcut_id').first().shortcuts.count()
+        except AttributeError:
+            successmac = None
+        try:
+            successlinux = success_shortcut.objects.filter(f_user=f_user, f_os=3).order_by('-succsess_shortcut_id').first().shortcuts.count()
+        except AttributeError:
+            successlinux = None
+        
+        #各OSのユーザーの正解率を取得
         if windows == 0:
-            arrivalwindows = 0
+            arrivalwindows = None
+        elif successwindows is None:
+            arrivalwindows = None
         else:
-            arrivalwindows = round((windows - misswindows) / windows * 100)
-        
+            arrivalwindows = round(successwindows / windows * 100)
         if mac == 0:
-            arrivalmac = 0
+            arrivalmac = None
+        elif successmac is None:
+            arrivalmac = None
         else:
-            arrivalmac = round((mac - missmac) / mac * 100)
-        
+            arrivalmac = round(successmac / mac * 100)
         if linux == 0:
-            arrivallinux = 0
+            arrivallinux = None
+        elif successlinux is None:
+            arrivallinux = None
         else:
-            arrivallinux = round((linux - misslinux) / linux * 100)
+            arrivallinux = round(successlinux / linux * 100)
+        
         return Response({
             'question':{
             'Windows': windows,
@@ -150,6 +177,11 @@ class arrivalView(APIView):
             'Windows': misswindows,
             'Mac': missmac,
             'Linux': misslinux,
+            },
+            'successanswer':{
+            'Windows': successwindows,
+            'Mac': successmac,
+            'Linux': successlinux,
             },
             'arrival':{
             'Windows': arrivalwindows,

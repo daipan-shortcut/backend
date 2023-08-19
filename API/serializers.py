@@ -75,3 +75,13 @@ class remember_shortcutSerializer(serializers.ModelSerializer):
             'f_os',
             'shortcuts',
         ]
+
+class success_shortcutpostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = success_shortcut
+        fields = [
+            'succsess_shortcut_id',
+            'f_user',
+            'f_os',
+            'shortcuts',
+        ]
