@@ -29,6 +29,13 @@ class shortcutsortViewSet(generics.ListAPIView):
 
     def get_queryset(self):
         f_os = self.kwargs['f_os']
+        if f_os == 'Windows':
+            f_os = 1
+        if f_os == 'Mac':
+            f_os = 2
+        if f_os == 'Linux':
+            f_os = 3
+
         return shortcut.objects.filter(f_os=f_os).order_by('shortcut_id')
 
 #ユーザー関連
@@ -73,6 +80,12 @@ class remenderViewSet(generics.RetrieveAPIView):
     def get_queryset(self):
         f_user = self.kwargs['f_user']
         f_os = self.kwargs['f_os']
+        if f_os == 'Windows':
+            f_os = 1
+        if f_os == 'Mac':
+            f_os = 2
+        if f_os == 'Linux':
+            f_os = 3
         return remember_shortcut.objects.filter(f_user=f_user, f_os=f_os)
 
     def get_object(self):
