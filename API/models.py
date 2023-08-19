@@ -41,7 +41,7 @@ class shortcut(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.f_os.os_id}:{self.shortcut_name} "
+        return f"{self.shortcut_id}:{self.shortcut_name} "
     
 
 
@@ -76,8 +76,8 @@ class remember_shortcut(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = 'ショートカット情報'
-        verbose_name_plural = 'ショートカット情報'
+        verbose_name = '間違えたショートカット情報'
+        verbose_name_plural = '間違えたショートカット情報'
 
     def __str__(self):
         return f"{self.f_user.email}:{self.f_os.os_name}"

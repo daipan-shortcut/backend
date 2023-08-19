@@ -53,16 +53,25 @@ class t_userSerializerfor(serializers.ModelSerializer):
             'email',
         ]
 
-class remember_shortcutSerializer(serializers.ModelSerializer):
-    shortcuts = serializers.StringRelatedField(many=True)
-    f_user = t_userSerializerfor()
-    f_os = serializers.StringRelatedField()
+class remember_shortcutpostSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = remember_shortcut
 
         fields = [
             'remember_shortcut_id',
             'f_user',
+            'f_os',
+            'shortcuts',
+        ]
+
+class remember_shortcutSerializer(serializers.ModelSerializer):
+    shortcuts = shortcutSerializer(many=True)
+    f_os = serializers.StringRelatedField()
+    class Meta:
+        model = remember_shortcut
+
+        fields = [
             'f_os',
             'shortcuts',
         ]

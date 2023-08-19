@@ -59,9 +59,9 @@ class userViewSet(generics.RetrieveUpdateAPIView):
     authentication_classes = [JWTAuthentication, ]
     permission_classes = [IsAuthenticated, ]
 
-class remenderlistViewSet(generics.ListCreateAPIView):
+class remenderlistViewSet(generics.CreateAPIView):
     queryset = remember_shortcut.objects.all()
-    serializer_class = remember_shortcutSerializer
+    serializer_class = remember_shortcutpostSerializer
     # authentication_classes = [JWTAuthentication, ]
     # permission_classes = [IsAuthenticated, ]
     permission_classes = (AllowAny,)
@@ -77,7 +77,9 @@ class remenderViewSet(generics.RetrieveUpdateAPIView):
 
     def get_object(self):
         queryset = self.get_queryset()
-        obj = queryset.first()
+    #remember_shortcut_idがいちばん大きいものを取得
+        obj = queryset.order_by('-remember_shortcut_id').first()
+    
         if obj is None:
             raise Http404("No object found matching this query.")
         return obj
@@ -86,3 +88,5 @@ class remenderViewSet(generics.RetrieveUpdateAPIView):
         instance = self.get_object()
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
+    
+    permission_classes = (AllowAny,)
