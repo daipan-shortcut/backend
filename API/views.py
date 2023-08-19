@@ -103,3 +103,60 @@ class remenderViewSet(generics.RetrieveAPIView):
         return Response(serializer.data)
     
     permission_classes = (AllowAny,)
+
+
+class arrivalView(APIView):
+    def get(self, request, f_user):
+        #各OSのショートカット数を取得
+        windows = shortcut.objects.filter(f_os=1).count()
+        mac = shortcut.objects.filter(f_os=2).count()
+        linux = shortcut.objects.filter(f_os=3).count()
+
+        #各OSのユーザーのミスショートカット数を取得
+        try:
+            misswindows = remember_shortcut.objects.filter(f_user=f_user, f_os=1).order_by('-remember_shortcut_id').first().shortcuts.count()
+        except AttributeError:
+            misswindows = 0
+        try:
+            missmac = remember_shortcut.objects.filter(f_user=f_user, f_os=2).order_by('-remember_shortcut_id').first().shortcuts.count()
+        except AttributeError:
+            missmac = 0
+        try:    
+            misslinux = remember_shortcut.objects.filter(f_user=f_user, f_os=3).order_by('-remember_shortcut_id').first().shortcuts.count()
+        except AttributeError:
+            misslinux = 0
+        
+        if windows == 0:
+            arrivalwindows = 0
+        else:
+            arrivalwindows = round((windows - misswindows) / windows * 100)
+        
+        if mac == 0:
+            arrivalmac = 0
+        else:
+            arrivalmac = round((mac - missmac) / mac * 100)
+        
+        if linux == 0:
+            arrivallinux = 0
+        else:
+            arrivallinux = round((linux - misslinux) / linux * 100)
+        return Response({
+            'question':{
+            'Windows': windows,
+            'Mac': mac,
+            'Linux': linux,
+            },
+            'missanswer':{
+            'Windows': misswindows,
+            'Mac': missmac,
+            'Linux': misslinux,
+            },
+            'arrival':{
+            'Windows': arrivalwindows,
+            'Mac': arrivalmac,
+            'Linux': arrivallinux,
+            },
+
+        })
+    
+    permission_classes = (AllowAny,)
