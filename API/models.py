@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.hashers import make_password
 
 # Create your models here.
 class key(models.Model):
@@ -41,3 +42,27 @@ class shortcut(models.Model):
 
     def __str__(self):
         return f"{self.f_os.os_name}:{self.shortcut_name} "
+    
+
+
+
+class t_user(models.Model):
+    user_id = models.AutoField("ユーザーID",primary_key=True)
+    email = models.EmailField("メールアドレス",max_length=100)
+    password = models.CharField("パスワード",max_length=128)
+    created_at = models.DateTimeField("作成日時",auto_now_add=True)
+    updated_at = models.DateTimeField("更新日時",auto_now=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['email'], name='unique_email')
+        ]
+        verbose_name = 'ユーザー情報'
+        verbose_name_plural = 'ユーザー情報'
+
+    def __str__(self):
+        return self.email
+
+    def save(self, *args, **kwargs):
+        self.password = make_password(self.password)
+        super().save(*args, **kwargs)

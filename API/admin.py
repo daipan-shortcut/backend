@@ -5,3 +5,4 @@ from .models import *
 admin.site.register(os)
 admin.site.register(shortcut)
 admin.site.register(keymap)
+admin.site.register(t_user)

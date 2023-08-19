@@ -1,7 +1,7 @@
 import requests
 import json
 
-url = "http://127.0.0.1:8001/api/keymap/"
+url = "http://shortcutgame.kumaa9.dev/api/keymap/"
 
 for letter in range(ord('A'), ord('Z')+1):
     data = {

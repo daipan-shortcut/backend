@@ -60,3 +60,19 @@ class shortcutSerializer(serializers.ModelSerializer):
         except:
             return None
         
+class t_userSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = t_user
+        fields = [
+            'user_id',
+            'email',
+            'password',
+        ]
+#外部キーから参照するよう
+class t_userSerializerfor(serializers.ModelSerializer):
+    class Meta:
+        model = t_user
+        fields = [
+            'user_id',
+            'email',
+        ]
