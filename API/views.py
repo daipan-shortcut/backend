@@ -9,6 +9,7 @@ from rest_framework.views import APIView
 from django_filters.rest_framework import DjangoFilterBackend
 from .utils.auth import JWTAuthentication, NormalAuthentication
 from django.http import Http404
+import random
 
 from .models import *
 from .serializers import *
@@ -36,7 +37,8 @@ class shortcutsortViewSet(generics.ListAPIView):
         if f_os == 'Linux':
             f_os = 3
 
-        return shortcut.objects.filter(f_os=f_os).order_by('shortcut_id')
+        queryset = shortcut.objects.filter(f_os=f_os).order_by('shortcut_id')
+        return random.sample(list(queryset), min(len(queryset), 10))
 
 #ユーザー関連
 class Login(APIView):
