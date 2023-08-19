@@ -41,7 +41,7 @@ class shortcut(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.f_os.os_name}:{self.shortcut_name} "
+        return f"{self.f_os.os_id}:{self.shortcut_name} "
     
 
 
@@ -66,3 +66,18 @@ class t_user(models.Model):
     def save(self, *args, **kwargs):
         self.password = make_password(self.password)
         super().save(*args, **kwargs)
+
+class remember_shortcut(models.Model):
+    remember_shortcut_id = models.AutoField(primary_key=True)
+    f_user = models.ForeignKey(t_user, on_delete=models.CASCADE)
+    f_os = models.ForeignKey(os, on_delete=models.CASCADE)
+    shortcuts = models.ManyToManyField(shortcut)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'ショートカット情報'
+        verbose_name_plural = 'ショートカット情報'
+
+    def __str__(self):
+        return f"{self.f_user.email}:{self.f_os.os_name}"

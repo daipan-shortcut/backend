@@ -20,45 +20,21 @@ class keymapSerializer(serializers.ModelSerializer):
             'placeholder',
         ]
 class shortcutSerializer(serializers.ModelSerializer):
-    os = SerializerMethodField()
-    key1 = SerializerMethodField()
-    key2 = SerializerMethodField()
-    key3 = SerializerMethodField()
+    f_os = serializers.StringRelatedField()
+    f_key1 = keymapSerializer()
+    f_key2 = keymapSerializer()
+    f_key3 = keymapSerializer()
     class Meta:
         model = shortcut
         fields = [
             'shortcut_id',
             'shortcut_name',
-            'os',
-            'key1',
-            'key2',
-            'key3',
+            'f_os',
+            'f_key1',
+            'f_key2',
+            'f_key3',
         ]
-    
-    def get_os(self, obj):
-        try:
-            os__abstruct_contents = osSerializer(os.objects.all().filter(os_id=obj.f_os.os_id), many=True).data
-            return os__abstruct_contents
-        except:
-            return None
-    def get_key1(self, obj):
-        try:
-            key1__abstruct_contents = keymapSerializer(keymap.objects.all().filter(keymap_id=obj.f_key1.keymap_id), many=True).data
-            return key1__abstruct_contents
-        except:
-            return None
-    def get_key2(self, obj):
-        try:
-            key2__abstruct_contents = keymapSerializer(keymap.objects.all().filter(keymap_id=obj.f_key2.keymap_id), many=True).data
-            return key2__abstruct_contents
-        except:
-            return None
-    def get_key3(self, obj):
-        try:
-            key3__abstruct_contents = keymapSerializer(keymap.objects.all().filter(keymap_id=obj.f_key3.keymap_id), many=True).data
-            return key3__abstruct_contents
-        except:
-            return None
+
         
 class t_userSerializer(serializers.ModelSerializer):
     class Meta:
@@ -75,4 +51,18 @@ class t_userSerializerfor(serializers.ModelSerializer):
         fields = [
             'user_id',
             'email',
+        ]
+
+class remember_shortcutSerializer(serializers.ModelSerializer):
+    shortcuts = serializers.StringRelatedField(many=True)
+    f_user = t_userSerializerfor()
+    f_os = serializers.StringRelatedField()
+    class Meta:
+        model = remember_shortcut
+
+        fields = [
+            'remember_shortcut_id',
+            'f_user',
+            'f_os',
+            'shortcuts',
         ]
