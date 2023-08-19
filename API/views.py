@@ -66,7 +66,7 @@ class remenderlistViewSet(generics.CreateAPIView):
     # permission_classes = [IsAuthenticated, ]
     permission_classes = (AllowAny,)
 
-class remenderViewSet(generics.RetrieveUpdateAPIView):
+class remenderViewSet(generics.RetrieveAPIView):
     serializer_class = remember_shortcutSerializer
     lookup_field = 'remember_shortcut_id'
 
