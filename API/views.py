@@ -19,6 +19,51 @@ class shortcutViewSet(generics.ListAPIView):
     serializer_class = shortcutSerializer
     permission_classes = (AllowAny,)
 
+# class shortcutdetailViewSet(generics.ListAPIViewAPIView):
+#     serializer_class = shortcutSerializer
+#     permission_classes = (AllowAny,)
+
+class shortcutdetailViewSet(generics.ListAPIView):
+    serializer_class = shortcutSerializer
+    permission_classes = (AllowAny,)
+
+    def get_queryset(self):
+        pk = self.kwargs['pk']
+        pk2 = self.kwargs.get('pk2')
+        pk3 = self.kwargs.get('pk3')
+        pk4 = self.kwargs.get('pk4')
+        pk5 = self.kwargs.get('pk5')
+        pk6 = self.kwargs.get('pk6')
+        pk7 = self.kwargs.get('pk7')
+        pk8 = self.kwargs.get('pk8')
+        pk9 = self.kwargs.get('pk9')
+        pk10 = self.kwargs.get('pk10')
+            
+        if pk2 is None:
+            queryset = shortcut.objects.filter(shortcut_id=pk)  
+        elif pk3 is None:
+            queryset = shortcut.objects.filter(Q(shortcut_id=pk) | Q(shortcut_id=pk2))
+        elif pk4 is None:
+            queryset = shortcut.objects.filter(Q(shortcut_id=pk) | Q(shortcut_id=pk2) | Q(shortcut_id=pk3))
+        elif pk5 is None:
+            queryset = shortcut.objects.filter(Q(shortcut_id=pk) | Q(shortcut_id=pk2) | Q(shortcut_id=pk3) | Q(shortcut_id=pk4))
+        elif pk6 is None:
+            queryset = shortcut.objects.filter(Q(shortcut_id=pk) | Q(shortcut_id=pk2) | Q(shortcut_id=pk3) | Q(shortcut_id=pk4) | Q(shortcut_id=pk5))
+        elif pk7 is None:
+            queryset = shortcut.objects.filter(Q(shortcut_id=pk) | Q(shortcut_id=pk2) | Q(shortcut_id=pk3) | Q(shortcut_id=pk4) | Q(shortcut_id=pk5) | Q(shortcut_id=pk6))
+        elif pk8 is None:
+            queryset = shortcut.objects.filter(Q(shortcut_id=pk) | Q(shortcut_id=pk2) | Q(shortcut_id=pk3) | Q(shortcut_id=pk4) | Q(shortcut_id=pk5) | Q(shortcut_id=pk6) | Q(shortcut_id=pk7))
+        elif pk9 is None:
+            queryset = shortcut.objects.filter(Q(shortcut_id=pk) | Q(shortcut_id=pk2) | Q(shortcut_id=pk3) | Q(shortcut_id=pk4) | Q(shortcut_id=pk5) | Q(shortcut_id=pk6) | Q(shortcut_id=pk7) | Q(shortcut_id=pk8))
+        elif pk10 is None:
+            queryset = shortcut.objects.filter(Q(shortcut_id=pk) | Q(shortcut_id=pk2) | Q(shortcut_id=pk3) | Q(shortcut_id=pk4) | Q(shortcut_id=pk5) | Q(shortcut_id=pk6) | Q(shortcut_id=pk7) | Q(shortcut_id=pk8) | Q(shortcut_id=pk9))
+        else:
+            queryset = shortcut.objects.filter(Q(shortcut_id=pk) | Q(shortcut_id=pk2) | Q(shortcut_id=pk3) | Q(shortcut_id=pk4) | Q(shortcut_id=pk5) | Q(shortcut_id=pk6) | Q(shortcut_id=pk7) | Q(shortcut_id=pk8) | Q(shortcut_id=pk9) | Q(shortcut_id=pk10))
+
+        return queryset
+
+
+
 
 class keymapViewSet(generics.ListCreateAPIView):
     queryset = keymap.objects.all()
