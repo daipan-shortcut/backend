@@ -158,6 +158,37 @@ class successlistViewSet(generics.CreateAPIView):
     # permission_classes = [IsAuthenticated, ]
     permission_classes = (AllowAny,)
 
+class successViewSet(generics.RetrieveAPIView):
+    serializer_class = success_shortcutpostSerializer
+    lookup_field = 'succsess_shortcut_id'
+
+    def get_queryset(self):
+        f_user = self.kwargs['f_user']
+        f_os = self.kwargs['f_os']
+        if f_os == 'Windows':
+            f_os = 1
+        if f_os == 'Mac':
+            f_os = 2
+        if f_os == 'Linux':
+            f_os = 3
+        return success_shortcut.objects.filter(f_user=f_user, f_os=f_os)
+
+    def get_object(self):
+        queryset = self.get_queryset()
+    #succsess_shortcut_idがいちばん大きいものを取得
+        obj = queryset.order_by('-succsess_shortcut_id').first()
+    
+        if obj is None:
+            raise Http404("No object found matching this query.")
+        return obj
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
+    
+    permission_classes = (AllowAny,)
+
 
 class arrivalView(APIView):
     def get(self, request, f_user):

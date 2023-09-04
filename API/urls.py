@@ -10,6 +10,7 @@ urlpatterns = [
     path('remember/', views.remenderlistViewSet.as_view()),
     path('remember/<int:f_user>/<str:f_os>/', views.remenderViewSet.as_view()),
     path('success/', views.successlistViewSet.as_view()),
+    path('success/<int:f_user>/<str:f_os>/', views.successViewSet.as_view()),
     path('arrival/<str:f_user>/', views.arrivalView.as_view()),
     path('shortcutdetail/<int:pk>/', views.shortcutdetailViewSet.as_view()),
     path('shortcutdetail/<int:pk>/<int:pk2>/', views.shortcutdetailViewSet.as_view()),

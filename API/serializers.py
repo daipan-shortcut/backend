@@ -85,3 +85,13 @@ class success_shortcutpostSerializer(serializers.ModelSerializer):
             'f_os',
             'shortcuts',
         ]
+
+class success_shortcutSerializer(serializers.ModelSerializer):
+    shortcuts = shortcutSerializer(many=True)
+    f_os = serializers.StringRelatedField()
+    class Meta:
+        model = success_shortcut
+        fields = [
+            'f_os',
+            'shortcuts',
+        ]
